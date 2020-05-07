@@ -26,8 +26,8 @@ public class ClickerChargerAcceptance {
         campaign.chargeClick(new Click(new IdUser("User02"),false, new IdAdvertisement("Adv02")));
         campaign.chargeClick(new Click(new IdUser("User03"),true, new IdAdvertisement("Adv03")));
         campaign.chargeClick(new Click(new IdUser("User04"),false, new IdAdvertisement("Adv04")));
-        campaign.chargeClick(new Click(new IdUser("User05"),false, new IdAdvertisement("Adv05")));
-        campaign.chargeClick(new Click(new IdUser("User06"),true, new IdAdvertisement("Adv06")));
+        campaign.chargeClick(new Click(new IdUser("User04"),false, new IdAdvertisement("Adv05")));
+        campaign.chargeClick(new Click(new IdUser("User05"),true, new IdAdvertisement("Adv05")));
         assertEquals(campaignExpected,campaign);
 
     }

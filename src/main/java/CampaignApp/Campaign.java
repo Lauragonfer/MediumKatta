@@ -27,10 +27,9 @@ public class Campaign {
 
    public void chargeClick(Click click) {
 
-
       checkifTheCampaingStateAllowCharges();
-
-      checkIfIsDuplicateClick(click);
+      click.checkIfIsDuplicateClick(lastClick);
+      lastClick = click;
 
       budget.chargeClick(click);
 
@@ -38,10 +37,6 @@ public class Campaign {
          finishedCampaign();
       }
 
-   }
-
-   private void checkIfIsDuplicateClick(Click click) {
-      click.isDuplicatedClick(lastClick);
    }
 
    public void activatedCampaign() {
@@ -68,7 +63,6 @@ public class Campaign {
    public CampaignState actualState() {
       return state;
    }
-
 
    private void checkifTheCampaingStateAllowCharges() {
       if (isCampaignFinished()){
