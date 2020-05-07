@@ -15,13 +15,29 @@ public class Campaign {
    public Budget budget;
    private CampaignState state;
 
+   private Click lastClick;
+
 
    public Campaign(double budget, String idCampaign)  {
       this.idCampaign = new IdCampaign(idCampaign);
       this.budget = Budget.createBudget(budget);
       this.state = new PauseCampaignState();
+      this.lastClick = new Click(new IdUser(""),false,new IdAdvertisement("") );
    }
 
+   public void chargeClick(Click click) {
+
+      checkifTheCampaingStateAllowCharges();
+      click.checkIfIsDuplicateClick(lastClick);
+      lastClick = click;
+
+      budget.chargeClick(click);
+
+      if(budget.isBudgetZero()){
+         finishedCampaign();
+      }
+
+   }
 
    public void activatedCampaign() {
       if(isCampaignFinished()){
@@ -48,9 +64,7 @@ public class Campaign {
       return state;
    }
 
-
-   public void chargeClick(String idUser, Boolean isPremium) {
-
+   private void checkifTheCampaingStateAllowCharges() {
       if (isCampaignFinished()){
          throw new FinishedCampaignException(Message.FinishedCampaingWarning);
       }
@@ -58,15 +72,6 @@ public class Campaign {
       if (!isCampaignActive()){
          throw new CampaingIsNotActiveException(Message.CampaingIsNotActive);
       }
-
-      Click click = new Click(new IdUser(idUser),isPremium);
-
-      budget.chargeClick(click);
-
-      if(budget.isBudgetZero()){
-         finishedCampaign();
-      }
-
    }
 
    private boolean isCampaignFinished() {

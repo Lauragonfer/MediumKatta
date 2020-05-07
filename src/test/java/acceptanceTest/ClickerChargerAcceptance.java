@@ -2,6 +2,9 @@ package acceptanceTest;
 
 import CampaignApp.Campaign;
 
+import CampaignApp.Click;
+import CampaignApp.IdAdvertisement;
+import CampaignApp.IdUser;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -19,12 +22,12 @@ public class ClickerChargerAcceptance {
 
         campaign.activatedCampaign();
 
-        campaign.chargeClick("user01",false);
-        campaign.chargeClick("user01",false);
-        campaign.chargeClick("user01",true);
-        campaign.chargeClick("user01",false);
-        campaign.chargeClick("user01",false);
-        campaign.chargeClick("user01",true);
+        campaign.chargeClick(new Click(new IdUser("User01"),false, new IdAdvertisement("Adv01")));
+        campaign.chargeClick(new Click(new IdUser("User02"),false, new IdAdvertisement("Adv02")));
+        campaign.chargeClick(new Click(new IdUser("User03"),true, new IdAdvertisement("Adv03")));
+        campaign.chargeClick(new Click(new IdUser("User04"),false, new IdAdvertisement("Adv04")));
+        campaign.chargeClick(new Click(new IdUser("User04"),false, new IdAdvertisement("Adv05")));
+        campaign.chargeClick(new Click(new IdUser("User05"),true, new IdAdvertisement("Adv05")));
         assertEquals(campaignExpected,campaign);
 
     }
