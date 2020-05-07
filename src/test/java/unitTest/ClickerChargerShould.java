@@ -1,6 +1,9 @@
 package unitTest;
 
 import CampaignApp.Campaign;
+import CampaignApp.Click;
+import CampaignApp.IdAdvertisement;
+import CampaignApp.IdUser;
 import campaignState.ActiveCampaignState;
 import campaignState.FinishedCampaignState;
 import campaignState.PauseCampaignState;
@@ -51,7 +54,7 @@ public class ClickerChargerShould {
         Campaign campaign = new Campaign(1,"0001");
         Campaign campaignExpected = new Campaign(0.95, "0001");
         campaign.activatedCampaign();
-        campaign.chargeClick("user01",true);
+        campaign.chargeClick(new Click(new IdUser("User01"),true, new IdAdvertisement("Adv01")) );
         assertEquals(campaignExpected,campaign);
 
     }
@@ -62,14 +65,15 @@ public class ClickerChargerShould {
         Campaign campaign = new Campaign(0.99,"0001");
         Campaign campaignExpected = new Campaign(0.98, "0001");
         campaign.activatedCampaign();
-        campaign.chargeClick("user01",false);
+        campaign.chargeClick(new Click(new IdUser("User01"),false, new IdAdvertisement("Adv01")));
         assertEquals(campaignExpected,campaign);
     }
 
     @Test
     public void throw_a_exception_when_charge_a_click_in_a_NOT_Active_campaign(){
         Campaign campaign = new Campaign(1,"0001");
-        assertThrows(CampaingIsNotActiveException.class, () -> campaign.chargeClick("user01",true));
+        assertThrows(CampaingIsNotActiveException.class, () -> campaign.chargeClick(
+                new Click(new IdUser("User01"),true, new IdAdvertisement("Adv01"))));
     }
 
     @Test
@@ -77,7 +81,7 @@ public class ClickerChargerShould {
 
         Campaign campaign = new Campaign(0.05,"0001");
         campaign.activatedCampaign();
-        campaign.chargeClick("user01",true);
+        campaign.chargeClick(new Click(new IdUser("User01"),true, new IdAdvertisement("Adv01")));
         assertThat(campaign.actualState(), instanceOf (FinishedCampaignState.class));
 
     }
@@ -86,7 +90,8 @@ public class ClickerChargerShould {
     public void throw_a_exception_when_charge_a_click_in_a_Finished_campaign(){
         Campaign campaign = new Campaign(1,"0001");
         campaign.finishedCampaign();
-        assertThrows(FinishedCampaignException.class, () -> campaign.chargeClick("user01",true));
+        assertThrows(FinishedCampaignException.class, () -> campaign.chargeClick(
+                new Click(new IdUser("User01"),true, new IdAdvertisement("Adv01"))));
     }
 
     @Test
@@ -102,6 +107,7 @@ public class ClickerChargerShould {
     public void show_a_Exception_if_the_balance_for_PremiumCharge_is_not_enought(){
         Campaign campaign = new Campaign(0.03,"0001");
         campaign.activatedCampaign();
-        assertThrows(NotEnoughtBalanceToPremiumClickException.class, () -> campaign.chargeClick("user01",true));
+        assertThrows(NotEnoughtBalanceToPremiumClickException.class, () -> campaign.chargeClick(
+                new Click(new IdUser("User01"),true, new IdAdvertisement("Adv01"))));
     }
 }
