@@ -1,5 +1,8 @@
-package CampaignApp;
+package Campaign;
 
+import Budgets.BudgetStandard;
+import Budgets.BudgetTop;
+import CampaignApp.*;
 import campaignState.ActiveCampaignState;
 import campaignState.CampaignState;
 import campaignState.FinishedCampaignState;
@@ -9,18 +12,18 @@ import exceptions.FinishedCampaignException;
 
 import java.util.Objects;
 
-public class Campaign {
+public class CampaignTop implements Campaign {
 
    public IdCampaign idCampaign;
-   public Budget budget;
+   public BudgetTop budget;
    private CampaignState state;
 
    private Click lastClick;
 
 
-   public Campaign(double budget, String idCampaign)  {
+   public CampaignTop(double budget, String idCampaign)  {
       this.idCampaign = new IdCampaign(idCampaign);
-      this.budget = Budget.createBudget(budget);
+      this.budget = BudgetTop.createBudget(budget);
       this.state = new PauseCampaignState();
       this.lastClick = new Click(new IdUser(""),false,new IdAdvertisement("") );
    }
@@ -40,24 +43,17 @@ public class Campaign {
    }
 
    public void activatedCampaign() {
-      if(isCampaignFinished()){
-         throw new FinishedCampaignException(Message.FinishedCampaingWarning);
-      }
-      this.state = new ActiveCampaignState();
+      checkIfTheCampaingIsFinished();
+      state = state.activeState();
    }
 
    public void pausedCampaign() {
-      if(isCampaignFinished()){
-         throw new FinishedCampaignException(Message.FinishedCampaingWarning);
-      }
-      this.state = new PauseCampaignState();
+      checkIfTheCampaingIsFinished();
+      state = state.pauseState();
    }
 
    public void finishedCampaign() {
-      if(isCampaignFinished()){
-         throw new FinishedCampaignException(Message.FinishedCampaingWarning);
-      }
-      this.state = new FinishedCampaignState();
+      state = state.finishState();
    }
 
    public CampaignState actualState() {
@@ -65,16 +61,20 @@ public class Campaign {
    }
 
    private void checkifTheCampaingStateAllowCharges() {
-      if (isCampaignFinished()){
-         throw new FinishedCampaignException(Message.FinishedCampaingWarning);
-      }
+      checkIfTheCampaingIsFinished();
 
       if (!isCampaignActive()){
          throw new CampaingIsNotActiveException(Message.CampaingIsNotActive);
       }
    }
 
-   private boolean isCampaignFinished() {
+   public void checkIfTheCampaingIsFinished(){
+      if (isCampaignFinished()){
+         throw new FinishedCampaignException(Message.FinishedCampaingWarning);
+      }
+   }
+
+   public boolean isCampaignFinished() {
       if (state instanceof FinishedCampaignState){
          return true;
       }
@@ -92,15 +92,16 @@ public class Campaign {
    public boolean equals(Object o) {
       if (this == o) return true;
       if (o == null || getClass() != o.getClass()) return false;
-      Campaign campaign = (Campaign) o;
-      return Objects.equals(idCampaign, campaign.idCampaign) &&
-              Objects.equals(budget, campaign.budget);
+      CampaignTop campaignStandard = (CampaignTop) o;
+      return Objects.equals(idCampaign, campaignStandard.idCampaign) &&
+              Objects.equals(budget, campaignStandard.budget);
    }
 
    @Override
    public int hashCode() {
       return Objects.hash(idCampaign, budget);
    }
+
 
 }
 

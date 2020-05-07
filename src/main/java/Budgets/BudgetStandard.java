@@ -1,31 +1,32 @@
-package CampaignApp;
+package Budgets;
 
+import CampaignApp.Click;
+import CampaignApp.Message;
 import exceptions.InvalidBudgetException;
 import exceptions.NotEnoughtBalanceToNormalClickException;
 import exceptions.NotEnoughtBalanceToPremiumClickException;
 
 import java.util.Objects;
 
-public class Budget {
+public class BudgetStandard implements Budget{
 
     private double budget;
 
     private final Double PREMIUMCHARGE = 0.05;
     private final Double NORMALCHARGE = 0.01;
 
-    private Budget(double budget) {
+    private BudgetStandard(double budget) {
         this.budget = budget;
     }
 
-    public static Budget createBudget(double budget)  {
+    public static BudgetStandard createBudget(double budget)  {
 
-            if(budget <= 0){
+            if(budget <= 0 ){
                 throw new InvalidBudgetException(Message.InvalidBudget);
             }
 
-        return new Budget(budget);
+        return new BudgetStandard(budget);
     }
-
 
     public void chargeClick(Click click) {
 
@@ -42,6 +43,7 @@ public class Budget {
             throw new NotEnoughtBalanceToNormalClickException(Message.NotEnoughtBalanceToNormalClick);
         }
         budget -= NORMALCHARGE;
+        budget = Math.round( budget * 100.0 ) / 100.0;
 
     }
 
@@ -50,6 +52,7 @@ public class Budget {
             throw new NotEnoughtBalanceToPremiumClickException(Message.NotEnoughtBalanceToPremiumClick);
         }
         budget = budget - PREMIUMCHARGE;
+        budget = Math.round( budget * 100.0 ) / 100.0;
     }
 
     public boolean isBudgetZero() {
@@ -70,17 +73,17 @@ public class Budget {
         return false;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Budget budget1 = (Budget) o;
-        return Double.compare(budget1.budget, budget) == 0;
+        BudgetStandard that = (BudgetStandard) o;
+        return Double.compare(that.budget, budget) == 0;
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(budget);
     }
-
 }
