@@ -1,23 +1,20 @@
 package campaignState;
 
-import CampaignApp.Campaign;
-
 public class ActiveCampaignState implements CampaignState {
 
     @Override
-    public void pauseState(Campaign campaign) {
-        campaign.pausedCampaign();
+    public CampaignState pauseState() {
+        return new PauseCampaignState();
     }
 
     @Override
-    public void activeState(Campaign campaign) {
-        System.out.println("IS ALREADY ACTIVE");
-        campaign.activatedCampaign();
+    public CampaignState activeState() {
+       return new ActiveCampaignState();
     }
 
     @Override
-    public void finishState(Campaign campaign) {
-        campaign.finishedCampaign();
+    public CampaignState finishState(){
+        return new FinishedCampaignState();
     }
 
 }

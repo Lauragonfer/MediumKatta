@@ -1,11 +1,12 @@
 package campaignState;
 
-import CampaignApp.Campaign;
+import Campaign.CampaignStandard;
+import CampaignApp.Click;
 
 public interface CampaignState {
 
-    void pauseState(Campaign campaign);
-    void activeState(Campaign campaign);
-    void finishState(Campaign campaign);
+    CampaignState pauseState();
+    CampaignState activeState();
+    CampaignState finishState();
 
 }

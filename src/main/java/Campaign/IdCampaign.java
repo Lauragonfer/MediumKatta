@@ -1,4 +1,4 @@
-package CampaignApp;
+package Campaign;
 
 import java.util.Objects;
 
