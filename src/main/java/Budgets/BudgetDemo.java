@@ -1,6 +1,7 @@
 package Budgets;
 
-import CampaignApp.Click;
+import ClickAdvertisement.Click;
+import java.util.List;
 import java.util.Objects;
 
 public class BudgetDemo  implements Budget{
@@ -16,6 +17,10 @@ public class BudgetDemo  implements Budget{
 
     public void chargeClick(Click click) {
         budget = budget;
+    }
+
+    @Override
+    public void repayThisClicks(List<Click> clicksRepayList) {
     }
 
 

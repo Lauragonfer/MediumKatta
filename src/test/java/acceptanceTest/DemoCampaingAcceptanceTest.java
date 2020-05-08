@@ -3,9 +3,9 @@ package acceptanceTest;
 import Campaign.Campaign;
 import Campaign.CampaignDemo;
 
-import CampaignApp.Click;
-import CampaignApp.IdAdvertisement;
-import CampaignApp.IdUser;
+import ClickAdvertisement.Click;
+import ClickAdvertisement.IdAdvertisement;
+import ClickAdvertisement.IdUser;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

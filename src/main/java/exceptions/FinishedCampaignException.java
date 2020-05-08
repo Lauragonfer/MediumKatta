@@ -1,6 +1,6 @@
 package exceptions;
 
-import CampaignApp.Message;
+import ClickAdvertisement.Message;
 
 public class FinishedCampaignException extends RuntimeException{
     public FinishedCampaignException(Message messageException) {

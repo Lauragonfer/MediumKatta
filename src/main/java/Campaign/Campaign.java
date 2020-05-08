@@ -1,7 +1,11 @@
 package Campaign;
 
-import CampaignApp.Click;
+import ClickAdvertisement.Click;
+import ClickAdvertisement.IdUser;
 import campaignState.CampaignState;
+
+import java.util.Date;
+import java.util.List;
 
 public interface Campaign {
 
@@ -16,5 +20,7 @@ public interface Campaign {
     CampaignState actualState();
 
     void chargeClick(Click click);
+
+    void fakeClicksRepay(Date dateStartBotClicks, List<IdUser> idUserBotsList);
 }
 

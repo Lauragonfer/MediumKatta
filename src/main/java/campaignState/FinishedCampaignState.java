@@ -1,9 +1,5 @@
 package campaignState;
 
-import Campaign.CampaignStandard;
-import CampaignApp.Message;
-import exceptions.FinishedCampaignException;
-
 public class FinishedCampaignState implements CampaignState {
 
     @Override

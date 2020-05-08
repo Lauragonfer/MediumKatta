@@ -1,8 +1,8 @@
-package CampaignApp;
+package ClickAdvertisement;
 
 public class IdClick {
 
-    String idClick;
+    private String idClick;
 
     public IdClick(String idClick) {
         this.idClick = idClick;

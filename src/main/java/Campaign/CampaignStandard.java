@@ -1,44 +1,35 @@
 package Campaign;
 
 import Budgets.BudgetStandard;
-import CampaignApp.*;
+import ClickAdvertisement.*;
 import campaignState.ActiveCampaignState;
 import campaignState.CampaignState;
 import campaignState.FinishedCampaignState;
 import campaignState.PauseCampaignState;
+import exceptions.BotUserListIsEmptyException;
 import exceptions.CampaingIsNotActiveException;
+import exceptions.DateStartBotNotCorrectException;
 import exceptions.FinishedCampaignException;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 public class CampaignStandard implements Campaign {
 
-   public IdCampaign idCampaign;
-   public BudgetStandard budgetStandard;
+   private IdCampaign idCampaign;
+   private BudgetStandard budgetStandard;
    private CampaignState state;
 
    private Click lastClick;
-
+   private ClickRegisterList clickRegisterList;
 
    public CampaignStandard(double budget, String idCampaign)  {
       this.idCampaign = new IdCampaign(idCampaign);
       this.budgetStandard = BudgetStandard.createBudget(budget);
       this.state = new PauseCampaignState();
       this.lastClick = new Click(new IdUser(""),false,new IdAdvertisement("") );
-   }
-
-   public void chargeClick(Click click) {
-
-      checkifTheCampaingStateAllowCharges();
-      click.checkIfIsDuplicateClick(lastClick);
-      lastClick = click;
-
-      budgetStandard.chargeClick(click);
-
-      if(budgetStandard.isBudgetZero()){
-         finishedCampaign();
-      }
-
+      this.clickRegisterList = new ClickRegisterList();
    }
 
    public void activatedCampaign() {
@@ -55,13 +46,44 @@ public class CampaignStandard implements Campaign {
       state = state.finishState();
    }
 
-   public CampaignState actualState() {
-      return state;
+   public void chargeClick(Click click) {
+
+      checkifTheCampaingStateAllowCharges();
+      click.checkIfIsDuplicateClick(lastClick);
+
+      lastClick = click;
+      budgetStandard.chargeClick(click);
+      clickRegisterList.addClickToRegister(click);
+
+      if(budgetStandard.isBudgetZero()){
+         finishedCampaign();
+      }
    }
 
-   private void checkifTheCampaingStateAllowCharges() {
-      checkIfTheCampaingIsFinished();
+   public void fakeClicksRepay(Date dateStartBotClicks, List<IdUser> idUserBotsList) {
+      checkIfDateToStarBotsClicksIsCorrect(dateStartBotClicks);
+      checkIfTheUserBotsListIsEmpty(idUserBotsList);
 
+      List <Click> clicksRepayList = clickRegisterList.retrieveBotsClickToRepay(dateStartBotClicks,idUserBotsList);
+      budgetStandard.repayThisClicks(clicksRepayList);
+   }
+
+   private void checkIfTheUserBotsListIsEmpty(List<IdUser> idUserBotsList) {
+      if (idUserBotsList.isEmpty())
+      {
+         throw new BotUserListIsEmptyException(Message.botUserListIsEmpty);
+      }
+   }
+
+   private void checkIfDateToStarBotsClicksIsCorrect(Date dateStartBotClicks) {
+      if (dateStartBotClicks.after(new Date()))
+      {
+         throw new DateStartBotNotCorrectException(Message.dateStartBotNotCorrect);
+      }
+   }
+
+   public void checkifTheCampaingStateAllowCharges() {
+      checkIfTheCampaingIsFinished();
       if (!isCampaignActive()){
          throw new CampaingIsNotActiveException(Message.CampaingIsNotActive);
       }
@@ -85,6 +107,10 @@ public class CampaignStandard implements Campaign {
          return true;
       }
       return false;
+   }
+
+   public CampaignState actualState() {
+      return state;
    }
 
    @Override
