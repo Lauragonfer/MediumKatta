@@ -25,10 +25,17 @@ public class ClickRegisterList {
         return repayList;
     }
 
-    private List<Click> clickMakeByUserSinceDateToToday(IdUser idUser, Date dateStartBotClicks) {
+    public List<Click> clickMakeByUserSinceDateToToday(IdUser idUser, Date dateStartBotClicks) {
+        List <Click> clickDateList = new ArrayList<>();
+        List <Click> clicksMakesByUser = retrieveClicksByThisUser(idUser);
+        clickDateList.addAll(retrieveClicksOfAListSinceThisDate(clicksMakesByUser,dateStartBotClicks));
+        return clickDateList;
+    }
+
+    public List<Click> retrieveClicksOfAListSinceThisDate(List<Click> clicksUserBot, Date dateStartBotClicks) {
         List <Click> clickDateList = new ArrayList<>();
 
-        for ( Click click : retrieveClicksByThisUser(idUser)) {
+        for ( Click click:clicksUserBot) {
             if(click.isBetweenDateAndToday(dateStartBotClicks)){
                 clickDateList.add(click);
             }
@@ -42,7 +49,6 @@ public class ClickRegisterList {
 
         for ( Click click:clicksRegisterList) {
             if(click.isBetweenDateAndToday(dateStartBotClicks)){
-                click.toString();
                 clickDateList.add(click);
             }
         }
