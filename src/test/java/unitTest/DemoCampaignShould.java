@@ -2,9 +2,9 @@ package unitTest;
 
 import Campaign.Campaign;
 import Campaign.CampaignDemo;
-import CampaignApp.Click;
-import CampaignApp.IdAdvertisement;
-import CampaignApp.IdUser;
+import ClickAdvertisement.Click;
+import ClickAdvertisement.IdAdvertisement;
+import ClickAdvertisement.IdUser;
 import campaignState.ActiveCampaignState;
 import campaignState.PauseCampaignState;
 import exceptions.*;
@@ -15,7 +15,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class DemoCampaingShould {
+public class DemoCampaignShould {
 
     @Test
     public void change_the_state_of_the_Demo_campaing_to_Active_if_its_Pause(){

@@ -1,7 +1,5 @@
 package campaignState;
 
-import Campaign.CampaignStandard;
-
 public class PauseCampaignState  implements CampaignState {
 
     @Override

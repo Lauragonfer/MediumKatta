@@ -1,11 +1,12 @@
 package Budgets;
 
-import CampaignApp.Click;
-import CampaignApp.Message;
+import ClickAdvertisement.Click;
+import ClickAdvertisement.Message;
 import exceptions.InvalidBudgetException;
 import exceptions.NotEnoughtBalanceToNormalClickException;
 import exceptions.NotEnoughtBalanceToPremiumClickException;
 
+import java.util.List;
 import java.util.Objects;
 
 public class BudgetStandard implements Budget{
@@ -20,11 +21,9 @@ public class BudgetStandard implements Budget{
     }
 
     public static BudgetStandard createBudget(double budget)  {
-
             if(budget <= 0 ){
                 throw new InvalidBudgetException(Message.InvalidBudget);
             }
-
         return new BudgetStandard(budget);
     }
 
@@ -38,12 +37,35 @@ public class BudgetStandard implements Budget{
         }
     }
 
+    @Override
+    public void repayThisClicks(List<Click> clicksRepayList) {
+        if (!clicksRepayList.isEmpty()){
+            budget += calculateTheAmountOfClicks(clicksRepayList);
+            budget = roundDouble(budget);
+        }
+    }
+
+    public Double calculateTheAmountOfClicks(List<Click> clicksRepayList) {
+        Double amountRepay= 0.0;
+        for (Click click :clicksRepayList) {
+            amountRepay += retrieveAmountClick(click);
+        }
+        return amountRepay;
+    }
+
+    private Double retrieveAmountClick(Click click) {
+        if (click.isPremium()){
+            return  PREMIUMCHARGE;
+        }
+        return NORMALCHARGE;
+    }
+
     private void chargeNormalClick(Click click) {
         if (!haveEnoughBalanceToNormal()){
             throw new NotEnoughtBalanceToNormalClickException(Message.NotEnoughtBalanceToNormalClick);
         }
         budget -= NORMALCHARGE;
-        budget = Math.round( budget * 100.0 ) / 100.0;
+        budget = roundDouble(budget);
 
     }
 
@@ -52,7 +74,11 @@ public class BudgetStandard implements Budget{
             throw new NotEnoughtBalanceToPremiumClickException(Message.NotEnoughtBalanceToPremiumClick);
         }
         budget = budget - PREMIUMCHARGE;
-        budget = Math.round( budget * 100.0 ) / 100.0;
+        budget = roundDouble(budget);
+    }
+
+    private double roundDouble(double doubleNumber) {
+        return  Math.round( doubleNumber * 100.0 ) / 100.0;
     }
 
     public boolean isBudgetZero() {
@@ -72,7 +98,6 @@ public class BudgetStandard implements Budget{
         }
         return false;
     }
-
 
     @Override
     public boolean equals(Object o) {

@@ -1,8 +1,7 @@
 package Campaign;
 
 import Budgets.BudgetDemo;
-import Budgets.BudgetStandard;
-import CampaignApp.*;
+import ClickAdvertisement.*;
 import campaignState.ActiveCampaignState;
 import campaignState.CampaignState;
 import campaignState.FinishedCampaignState;
@@ -10,13 +9,16 @@ import campaignState.PauseCampaignState;
 import exceptions.CampaingIsNotActiveException;
 import exceptions.FinishedCampaignException;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 public class CampaignDemo implements Campaign {
 
-   public IdCampaign idCampaign;
-   public BudgetDemo budget;
+   private IdCampaign idCampaign;
+   private BudgetDemo budget;
    private CampaignState state;
+
 
    public CampaignDemo(double budget, String idCampaign)  {
       this.idCampaign = new IdCampaign(idCampaign);
@@ -25,8 +27,11 @@ public class CampaignDemo implements Campaign {
    }
 
    public void chargeClick(Click click) {
-
       checkifTheCampaingStateAllowCharges();
+   }
+
+   @Override
+   public void fakeClicksRepay(Date dateStartBotClicks, List<IdUser> idUserBotsList) {
 
    }
 
@@ -61,7 +66,6 @@ public class CampaignDemo implements Campaign {
    public CampaignState actualState() {
       return state;
    }
-
 
    public boolean isCampaignFinished() {
       if (state instanceof FinishedCampaignState){

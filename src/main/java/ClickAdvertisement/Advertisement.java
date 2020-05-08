@@ -1,4 +1,4 @@
-package CampaignApp;
+package ClickAdvertisement;
 
 public class Advertisement {
 

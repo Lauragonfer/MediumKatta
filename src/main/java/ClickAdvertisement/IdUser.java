@@ -1,10 +1,10 @@
-package CampaignApp;
+package ClickAdvertisement;
 
 import java.util.Objects;
 
 public class IdUser {
 
-    String idUser;
+    private String idUser;
 
     public IdUser(String idUser) {
         this.idUser = idUser;
@@ -22,4 +22,5 @@ public class IdUser {
     public int hashCode() {
         return Objects.hash(idUser);
     }
+
 }

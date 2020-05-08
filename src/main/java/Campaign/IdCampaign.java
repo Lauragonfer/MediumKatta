@@ -4,10 +4,9 @@ import java.util.Objects;
 
 public class IdCampaign {
 
-    String id;
+    private String id;
 
     public IdCampaign(String idCampaign) {
-
         this.id = idCampaign;
     }
 

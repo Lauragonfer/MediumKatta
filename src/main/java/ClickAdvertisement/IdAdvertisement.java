@@ -1,12 +1,12 @@
-package CampaignApp;
+package ClickAdvertisement;
 
 import java.util.Objects;
 
 public class IdAdvertisement {
 
-        String idAdvertisement;
+    private String idAdvertisement;
 
-        public IdAdvertisement(String idAdvertisement) {
+    public IdAdvertisement(String idAdvertisement) {
             this.idAdvertisement = idAdvertisement;
         }
 
