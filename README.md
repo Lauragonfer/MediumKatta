@@ -1,5 +1,32 @@
 #ClickerCharger
 
+#Exercise
+
+We want to build a new system to charge for the clicks that we get from the website.
+
+A campaign is an investment that a customer makes on our platform. Each campaign has an id and a budget. 
+We want to be able to pause and activate it. 
+We want to charge for clicks. Each click has it's own id , the id of the user who made the click, the instant and
+if it's premium.
+When a click is premium we charge 0,05€ and if not, 0,01€.
+Only when a campaign is active clicks can be charged. 
+When the budget reaches 0 the campaign state changes to finished and it can't be paused or activated.
+
+Some companies want a demo (try it) campaigns running in these are free cost and no click will be charged.
+Top campaigns are these campaigns we charge for the premium clicks to 0,2€ and non-premium to 0,1€.
+Campaigns standard have the same prices described before.
+
+We consider that duplication exists when two clicks that are made by the same user on the same ad in a 15 seconds window.
+In this case we don't want to charge for the clicks after the first in this period.
+
+Sometimes bots generate fake clicks  We want that given a date where we start to find fraudulent clicks and a list of
+user identifiers allows us to rollback the charges applying the following criteria.
+* If the campaign is a demo campaign we do nothing as no charges are applied.
+* For standard campaigns we want to refund only the clicks made by the bot.
+* For premium campaigns we want to refund all the clicks if the amount is not higher than 5% of their totalbudget. 
+If the amount to refund is higher than that we only want to refund the clicks made by a bot.
+
+
 ##Assumptions
 
 * All Campaigns are in pause state when are created, you should activate them to use it
